@@ -22,7 +22,7 @@ function playRound() {
   let humanSelection = getHumanChoice().toLowerCase();
   let computerSelection = getComputerChoice().toLowerCase();
 
-  if (checkInput()) {
+  if (checkInput(humanSelection)) {
     determineWinner(humanSelection, computerSelection);
   } else {
     amountOfRounds++;
@@ -35,7 +35,7 @@ function playRound() {
 }
 
 function getHumanChoice() {
-  return prompt(`rock, paper, or scissors: `, ``)
+  return prompt(`rock, paper, or scissors: `)
 }
 
 function getComputerChoice() {
@@ -72,9 +72,9 @@ function determineWinner(humanSelection, computerSelection) {
 }
 
 function checkInput(input) {
-  if (input !== `rock` || input !== `paper` || input !== `scissors`) {
-    return false;
+  if (input === `rock` || input === `paper` || input === `scissors`) {
+    return true;
   }
 
-  return true;
+  return false;
 }
