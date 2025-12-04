@@ -22,9 +22,16 @@ function playRound() {
   let humanSelection = getHumanChoice().toLowerCase();
   let computerSelection = getComputerChoice().toLowerCase();
 
-  checkInput(humanSelection);
+  if (checkInput()) {
+    determineWinner(humanSelection, computerSelection);
+  } else {
+    amountOfRounds++;
 
-  determineWinner(humanSelection, computerSelection);
+    alert(`INPUT NOT VALID
+           Please enter either: 
+           'rock', 'paper', or 'scissors'`);
+  }
+  
 }
 
 function getHumanChoice() {
@@ -45,6 +52,8 @@ function getComputerChoice() {
 }
 
 function determineWinner(humanSelection, computerSelection) {
+
+
   if (humanSelection === computerSelection) {
     alert(`The computer picked ${computerSelection}
            Tie`);
@@ -64,10 +73,8 @@ function determineWinner(humanSelection, computerSelection) {
 
 function checkInput(input) {
   if (input !== `rock` || input !== `paper` || input !== `scissors`) {
-    amountOfRounds++;
-
-    alert(`INPUT NOT VALID
-           Please enter either: 
-           'rock', 'paper', or 'scissors'`);
+    return false;
   }
+
+  return true;
 }
