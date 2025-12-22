@@ -1,3 +1,4 @@
+/*
 alert(`To start the game go to console and enter:
        playGame()`)
 
@@ -78,3 +79,4 @@ function checkInput(input) {
 
   return false;
 }
+*/
