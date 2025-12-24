@@ -57,3 +57,28 @@ body {
 #robot-text {
   color: #919191;
 }
+
+#option-holder {
+  width: 45%;
+  min-width: 300px;
+  height: 10%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 24px;
+}
+
+button {
+  width: 200px;
+  height: 200px;
+  border-radius: 10%;
+  background-color: #919191;
+  font-size: 2vh;
+  border: 0;
+}
+button:hover {
+  border: 8px white solid;
+}
+button:active {
+  border: 8px black solid;
+}
