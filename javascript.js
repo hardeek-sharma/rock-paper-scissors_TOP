@@ -1,41 +1,50 @@
-alert(`To start the game go to console and enter:
-       playGame()`)
-
-let humanScore = 0;
+let playerScore = 0;
 let computerScore = 0;
-let amountOfRounds = 5;
 
-function playGame() {
-  humanScore = 0;
-  computerScore = 0;
-  amountOfRounds = 5;
+let computerText = document.querySelector('#computer-text');
+let playerText = document.querySelector('#player-text');
 
-  for(i = 1; i <= amountOfRounds; i++) {
-    playRound();
+let scoreText = document.querySelector('#score');
+let mainInfo = document.querySelector('#main-info');
+
+let buttons = document.querySelector('#button-holder')
+buttons.addEventListener('click', (e) => {
+  switch (e.target.getAttribute('id')) {
+    case 'rock':
+      playerText.textContent = 'ROCK';
+      playRound('rock');
+      break;
+    case 'paper':
+      playerText.textContent = 'PAPER';
+      playRound('paper');
+      break;
+    case 'scissors':
+      playerText.textContent = 'SCISSORS';
+      playRound('scissors');
+      break;
   }
+})
 
-  alert(`Final Scores
-    Human: ${humanScore} Computer: ${computerScore}`)
-}
-
-function playRound() {
-  let humanSelection = getHumanChoice().toLowerCase();
+function playRound(playerSelection) {
+  console.log(`Selection: ${playerSelection}`);
   let computerSelection = getComputerChoice().toLowerCase();
+  computerText.textContent = computerSelection.toUpperCase();
 
-  if (checkInput(humanSelection)) {
-    determineWinner(humanSelection, computerSelection);
-  } else {
-    amountOfRounds++;
-
-    alert(`INPUT NOT VALID
-           Please enter either: 
-           'rock', 'paper', or 'scissors'`);
-  }
+  determineRoundWinner(playerSelection, computerSelection);
   
-}
+  if (computerScore == 5 || playerScore == 5) {
+    if (computerScore > playerScore) {
+      mainInfo.textContent = `COMPUTER WON, ${computerScore} - ${playerScore}, CLICK THE BUTTONS TO PLAY AGAIN`;
+    } else {
+      mainInfo.textContent = `YOU WON, ${playerScore} - ${computerScore}, CLICK THE BUTTONS TO PLAY AGAIN`;
+    }
 
-function getHumanChoice() {
-  return prompt(`rock, paper, or scissors: `)
+    playerScore = 0;
+    computerScore = 0;
+    computerText.textContent = '-';
+    playerText.textContent = '-';
+    scoreText.textContent = '0 - 0';
+  }
 }
 
 function getComputerChoice() {
@@ -51,30 +60,24 @@ function getComputerChoice() {
   }
 }
 
-function determineWinner(humanSelection, computerSelection) {
-
-
-  if (humanSelection === computerSelection) {
-    alert(`The computer picked ${computerSelection}
-           Tie`);
-    amountOfRounds++;
-  } else if (humanSelection === `rock` && computerSelection === `scissors` 
-    || humanSelection === `paper` && computerSelection === `rock` 
-    || humanSelection === `scissors` && computerSelection === `paper`) {
-    alert(`The computer picked ${computerSelection}
-           You beat the computer`);
-    humanScore++;
+function determineRoundWinner(playerSelection, computerSelection) {
+  let winner = '';
+  if (playerSelection == computerSelection) {
+    winner = 'tie';
+    mainInfo.textContent = 'TIE, NOBODY GETS A POINT';
+  } else if (playerSelection === `rock` && computerSelection === `scissors` 
+            || playerSelection === `paper` && computerSelection === `rock` 
+            || playerSelection === `scissors` && computerSelection === `paper`) {
+    playerScore++;
+    winner = 'player';
+    mainInfo.textContent = 'YOU GET A POINT';
   } else {
-    alert(`The computer picked ${computerSelection}
-           You lose`);
     computerScore++;
-  }
-}
-
-function checkInput(input) {
-  if (input === `rock` || input === `paper` || input === `scissors`) {
-    return true;
+    winner = 'computer';
+    mainInfo.textContent = 'COMPUTER GETS A POINT';
   }
 
-  return false;
+  scoreText.textContent = `${playerScore} - ${computerScore}`;
+
+  return winner;
 }
