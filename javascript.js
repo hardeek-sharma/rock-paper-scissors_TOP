@@ -80,3 +80,87 @@ function checkInput(input) {
   return false;
 }
 */
+
+let humanScore = 0;
+let computerScore = 0;
+
+let robotText = document.querySelector('#robot-text');
+let humanText = document.querySelector('#you-text');
+
+let scoreText = document.querySelector('#score');
+let mainInfo = document.querySelector('#main-info');
+
+let buttons = document.querySelector('#button-holder')
+buttons.addEventListener('click', (e) => {
+  switch (e.target.getAttribute('id')) {
+    case 'rock':
+      humanText.textContent = 'ROCK';
+      playRound('rock');
+      break;
+    case 'paper':
+      humanText.textContent = 'PAPER';
+      playRound('paper');
+      break;
+    case 'scissors':
+      humanText.textContent = 'SCISSORS';
+      playRound('scissors');
+      break;
+  }
+})
+
+function playRound(humanSelection) {
+  console.log(`Selection: ${humanSelection}`);
+  let computerSelection = getComputerChoice().toLowerCase();
+  robotText.textContent = computerSelection.toUpperCase();
+
+  let winner = determineRoundWinner(humanSelection, computerSelection);
+  
+  if (computerScore == 5 || humanScore == 5) {
+    if (computerScore > humanScore) {
+      mainInfo.textContent = `COMPUTER WON, ${computerScore} - ${humanScore}, CLICK THE BUTTONS TO PLAY AGAIN`;
+    } else {
+      mainInfo.textContent = `COMPUTER WON, ${humanScore} - ${computerScore}, CLICK THE BUTTONS TO PLAY AGAIN`;
+    }
+
+    humanScore = 0;
+    computerScore = 0;
+    robotText.textContent = '-';
+    humanText.textContent = '-';
+    scoreText.textContent = '0 - 0';
+  }
+}
+
+function getComputerChoice() {
+  const amountOfOptions = 3;
+  let numberPicked = (Math.floor(Math.random() * amountOfOptions)) + 1;
+
+  if (numberPicked === 1) {
+    return `rock`;
+  } else if (numberPicked === 2) {
+    return `paper`;
+  } else {
+    return `scissors`;
+  }
+}
+
+function determineRoundWinner(humanSelection, computerSelection) {
+  let winner = '';
+  if (humanSelection == computerSelection) {
+    winner = 'tie';
+    mainInfo.textContent = 'TIE, NOBODY GETS A POINT';
+  } else if (humanSelection === `rock` && computerSelection === `scissors` 
+            || humanSelection === `paper` && computerSelection === `rock` 
+            || humanSelection === `scissors` && computerSelection === `paper`) {
+    humanScore++;
+    winner = 'human';
+    mainInfo.textContent = 'YOU GET A POINT';
+  } else {
+    computerScore++;
+    winner = 'robot';
+    mainInfo.textContent = 'ROBOT GETS A POINT';
+  }
+
+  scoreText.textContent = `${humanScore} - ${computerScore}`;
+
+  return winner;
+}
